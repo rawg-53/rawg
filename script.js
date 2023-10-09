@@ -15,7 +15,9 @@ but.addEventListener("click", () => {
 });
 
 async function api(searchValue) {
-    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&search=${searchValue}`);
+    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=2023-01-01,2023-12-31&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
 	const data = await response.json();
 	console.log(data);
 }
+
+api("")
