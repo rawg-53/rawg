@@ -14,32 +14,39 @@ but.addEventListener("click", () => {
 
 });
 
-async function api(searchValue) {
-    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=2023-01-01,2023-12-31&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
+async function home(searchValue) {
+	let date = new Date();
+	let currentDay = date.toISOString().split('T')[0];
+	let lastYear = `${Number(currentDay.substring(0, 4))-1}${currentDay.substring(4)}`;
+
+	console.log(`${lastYear},${currentDay}`);
+
+    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${currentDay}&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
 	const data = await response.json();
 	console.log(data);
 }
 
+
 async function searchFor30() {
 	
 	let date = new Date();
-	let currentMonth = date.toISOString().split('T')[0];
+	let currentDay = date.toISOString().split('T')[0];
 	let lastMonth;
 	
-	if(currentMonth.substring(5, 6) == "0") {
-		lastMonth = `${currentMonth.substring(0, 5)}${Number(currentMonth.substring(5, 7))-1}-${currentMonth.substring(8)}`;
+	if(currentDay.substring(5, 6) == "0") {
+		lastMonth = `${currentDay.substring(0, 5)}${Number(currentDay.substring(5, 7))-1}-${currentDay.substring(8)}`;
 	} else {
-		lastMonth = `${currentMonth.substring(0, 5)}0${Number(currentMonth.substring(5, 7))-1}-${currentMonth.substring(8)}`;
+		lastMonth = `${currentDay.substring(0, 5)}0${Number(currentDay.substring(5, 7))-1}-${currentDay.substring(8)}`;
 	}
 	
 	console.log(lastMonth);
-	console.log(currentMonth);
+	console.log(currentDay);
 	
-	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${currentMonth}&fields=released`);
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${currentDay}&fields=released`);
 	const data = await response.json();
 	console.log(data);
 }
 
 // searchFor30();
 
-// api("")
+// home("");
