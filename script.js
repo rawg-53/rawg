@@ -20,4 +20,26 @@ async function api(searchValue) {
 	console.log(data);
 }
 
-api("")
+async function searchFor30() {
+	
+	let date = new Date();
+	let currentMonth = date.toISOString().split('T')[0];
+	let lastMonth;
+	
+	if(currentMonth.substring(5, 6) == "0") {
+		lastMonth = `${currentMonth.substring(0, 5)}${Number(currentMonth.substring(5, 7))-1}-${currentMonth.substring(8)}`;
+	} else {
+		lastMonth = `${currentMonth.substring(0, 5)}0${Number(currentMonth.substring(5, 7))-1}-${currentMonth.substring(8)}`;
+	}
+	
+	console.log(lastMonth);
+	console.log(currentMonth);
+	
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${currentMonth}&fields=released`);
+	const data = await response.json();
+	console.log(data);
+}
+
+// searchFor30();
+
+// api("")
