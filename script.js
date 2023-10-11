@@ -3,6 +3,14 @@ let chapter = "games";
 const search = document.getElementById("search");
 const but = document.getElementById("but");
 
+let date = new Date();
+date = date.toISOString().split('T')[0];
+
+
+// let date = new Date();
+// date.setDate(date.getDate() - 10);
+// console.log(date)
+
 but.addEventListener("click", () => {
 
 
@@ -15,38 +23,51 @@ but.addEventListener("click", () => {
 });
 
 async function home(searchValue) {
-	let date = new Date();
-	let currentDay = date.toISOString().split('T')[0];
-	let lastYear = `${Number(currentDay.substring(0, 4))-1}${currentDay.substring(4)}`;
+	let lastYear = decrementDays(365, "+");
 
-	console.log(`${lastYear},${currentDay}`);
 
-    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${currentDay}&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
+    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${date}&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
 	const data = await response.json();
+	console.log("home");
 	console.log(data);
 }
 
 
-async function searchFor30() {
-	
+async function lastMonth() {
+
+	let lastMonth = decrementDays(31, "+");
+
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${date}&fields=released`);
+	const data = await response.json();
+	console.log("last month");
+	console.log(data);
+}
+
+async function lastWeek() {
+	let lastWeek = decrementDays(7, "-");
+
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastWeek},${date}&fields=released`);
+	const data = await response.json();
+	console.log("last week");
+	console.log(data);
+}
+
+function decrementDays(days, sign) {
 	let date = new Date();
-	let currentDay = date.toISOString().split('T')[0];
-	let lastMonth;
-	
-	if(currentDay.substring(5, 6) == "0") {
-		lastMonth = `${currentDay.substring(0, 5)}${Number(currentDay.substring(5, 7))-1}-${currentDay.substring(8)}`;
+	if(sign == "+") {
+		date.setDate(date.getDate() + days);
+	} if(sign == "-") {
+		date.setDate(date.getDate() - days);
 	} else {
-		lastMonth = `${currentDay.substring(0, 5)}0${Number(currentDay.substring(5, 7))-1}-${currentDay.substring(8)}`;
+		return "";
 	}
-	
-	console.log(lastMonth);
-	console.log(currentDay);
-	
-	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${currentDay}&fields=released`);
-	const data = await response.json();
-	console.log(data);
+	date = date.toISOString().split('T')[0];
+	return date;
 }
 
-// searchFor30();
 
 // home("");
+
+// lastMonth();
+
+// lastWeek();
