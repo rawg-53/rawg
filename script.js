@@ -7,15 +7,11 @@ let date = new Date();
 date = date.toISOString().split('T')[0];
 
 
-// let date = new Date();
-// date.setDate(date.getDate() - 10);
-// console.log(date)
-
 but.addEventListener("click", () => {
 
 
 	if(typeof search.value == "string" && search.value != "") {
-		api(search.value);
+		home(search.value);
 		console.log("type string");
 		console.log(search.value);	
 	}
@@ -23,20 +19,18 @@ but.addEventListener("click", () => {
 });
 
 async function home(searchValue) {
-	let lastYear = decrementDays(365, "+");
+	let lastYear = days(365, "-");
 
-
-    const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${date}&fields=announced,unanounced&ordering=-released,-metacritic,-rating&search=${searchValue}`);
+	const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released,-rating,-metacritic`);
 	const data = await response.json();
 	console.log("home");
 	console.log(data);
 }
 
-
 async function lastMonth() {
 
-	let lastMonth = decrementDays(31, "+");
-
+	let lastMonth = days(31, "-");
+	
 	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${date}&fields=released`);
 	const data = await response.json();
 	console.log("last month");
@@ -44,7 +38,9 @@ async function lastMonth() {
 }
 
 async function lastWeek() {
-	let lastWeek = decrementDays(7, "-");
+	let lastWeek = days(7, "-");
+	console.log(`https://api.rawg.io/api/games?key=${key}&dates=${lastWeek},${date}&fields=released`)
+
 
 	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastWeek},${date}&fields=released`);
 	const data = await response.json();
@@ -52,7 +48,18 @@ async function lastWeek() {
 	console.log(data);
 }
 
-function decrementDays(days, sign) {
+async function nextWeek() {
+	let nextWeek = days(7, "+");
+
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${date},${nextWeek}&fields=announced,unanounced`);
+	const data = await response.json();
+	console.log("next week");
+	console.log(data);
+}
+
+
+
+function days(days, sign) {
 	let date = new Date();
 	if(sign == "+") {
 		date.setDate(date.getDate() + days);
