@@ -1,15 +1,10 @@
 const key = "73d26e50a7cf40d7a5ce139d275e2bfc";
-let chapter = "games";
 const search = document.getElementById("search");
 const but = document.getElementById("but");
-
 let date = new Date();
 date = date.toISOString().split('T')[0];
 
-
 but.addEventListener("click", () => {
-
-
 	if(typeof search.value == "string" && search.value != "") {
 		home(search.value);
 		console.log("type string");
@@ -21,14 +16,13 @@ but.addEventListener("click", () => {
 async function home(searchValue) {
 	let lastYear = days(365, "-");
 
-	const response = await fetch(`https://api.rawg.io/api/${chapter}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released,-rating,-metacritic`);
+	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released,-rating,-metacritic`);
 	const data = await response.json();
 	console.log("home");
 	console.log(data);
 }
 
 async function lastMonth() {
-
 	let lastMonth = days(31, "-");
 	
 	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastMonth},${date}&fields=released`);
@@ -39,8 +33,6 @@ async function lastMonth() {
 
 async function lastWeek() {
 	let lastWeek = days(7, "-");
-	console.log(`https://api.rawg.io/api/games?key=${key}&dates=${lastWeek},${date}&fields=released`)
-
 
 	const response = await fetch(`https://api.rawg.io/api/games?key=${key}&dates=${lastWeek},${date}&fields=released`);
 	const data = await response.json();
@@ -57,9 +49,8 @@ async function nextWeek() {
 	console.log(data);
 }
 
-
-
 function days(days, sign) {
+	// takes Number (integer) and a + or a - sign then returns a new Date() incremented or decremented depending on the given sign by given Number (integer)
 	let date = new Date();
 	if(sign == "+") {
 		date.setDate(date.getDate() + days);
@@ -71,7 +62,6 @@ function days(days, sign) {
 	date = date.toISOString().split('T')[0];
 	return date;
 }
-
 
 // home("");
 
