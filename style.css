@@ -39,16 +39,16 @@ ul {
 /* /// */
 
 .block {
-    transition: all 0.4s;
     background-color: dodgerblue;
-    height: 300px;
+    height: auto;
     border-radius: 10px;
-    overflow: hidden;
     color: white;
 }
 
 .block img {
     width: 100%;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .block-container {
@@ -56,7 +56,7 @@ ul {
     padding: 5px;
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
 }
 
 .bottom {

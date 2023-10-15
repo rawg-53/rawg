@@ -17,14 +17,12 @@ let a = document.getElementsByClassName("block");
 console.log(a)
 for (let i = 0; i< a.length; i++) {
 	a[i].addEventListener("mouseenter", () => {
-		a[i].style.height = "calc(100% + 300px)"
+		a[i].style.height = "calc(100% + 200px)"
 		a[i].style.zIndex = 1;
 	});
 	a[i].addEventListener("mouseleave", () => {
-		setTimeout(() => {
-			a[i].style.height = "300px"
-			a[i].style.zIndex = 0;
-		}, 400);
+		a[i].style.height = "auto"
+		a[i].style.zIndex = 0;
 	})
 }
 
