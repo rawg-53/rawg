@@ -11,8 +11,23 @@ but.addEventListener("click", () => {
 		console.log("type string");
 		console.log(search.value);	
 	}
-
 });
+
+let a = document.getElementsByClassName("block");
+console.log(a)
+for (let i = 0; i< a.length; i++) {
+	a[i].addEventListener("mouseenter", () => {
+		a[i].style.height = "calc(100% + 300px)"
+		a[i].style.zIndex = 1;
+	});
+	a[i].addEventListener("mouseleave", () => {
+		setTimeout(() => {
+			a[i].style.height = "300px"
+			a[i].style.zIndex = 0;
+		}, 600);
+	})
+}
+
 
 async function home(searchValue) {
 	let lastYear = days(365, "-");
@@ -55,14 +70,20 @@ async function monthly(month) {
 }
 
 function months(month) {
-	switch(month) {
-		case ""
-	}
 	let date = new Date();
+	date.setMonth(month);
+	
 }
 
+/** takes 
+ * @param {number} days amount of days
+ * @param {string} sign plus or minus
+ * @returns {Date} YYYY-MM-DD format
+ * 
+ * then returns a new Date() incremented or decremented depending
+ * on the given sign by given Number (integer)
+ */
 function days(days, sign) {
-	// takes Number (integer) and a + or a - sign then returns a new Date() incremented or decremented depending on the given sign by given Number (integer)
 	let date = new Date();
 	if(sign == "+") {
 		date.setDate(date.getDate() + days);
