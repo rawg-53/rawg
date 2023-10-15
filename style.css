@@ -39,17 +39,12 @@ ul {
 /* /// */
 
 .block {
-    transition: all 0.5s;
+    transition: all 0.4s;
     background-color: dodgerblue;
     height: 300px;
     border-radius: 10px;
     overflow: hidden;
     color: white;
-}
-
-.block:hover {
-    /* height: calc(100% + 300px);
-    z-index: 1; */
 }
 
 .block img {

@@ -24,7 +24,7 @@ for (let i = 0; i< a.length; i++) {
 		setTimeout(() => {
 			a[i].style.height = "300px"
 			a[i].style.zIndex = 0;
-		}, 600);
+		}, 400);
 	})
 }
 
@@ -80,7 +80,7 @@ function months(month) {
  * @param {string} sign plus or minus
  * @returns {Date} YYYY-MM-DD format
  * 
- * then returns a new Date() incremented or decremented depending
+ * a new Date() incremented or decremented depending
  * on the given sign by given Number (integer)
  */
 function days(days, sign) {
