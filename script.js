@@ -1,17 +1,8 @@
 const key = "73d26e50a7cf40d7a5ce139d275e2bfc";
-const search = document.getElementById("search");
-const but = document.getElementById("but");
+const input = document.getElementById("search");
 const basicUrl = "https://api.rawg.io/api/games";
 let date = new Date();
 date = date.toISOString().split('T')[0];
-
-but.addEventListener("click", () => {
-	if(typeof search.value == "string" && search.value != "") {
-		home(search.value);
-		console.log("type string");
-		console.log(search.value);	
-	}
-});
 
 let a = document.getElementsByClassName("block");
 console.log(a)
@@ -19,18 +10,37 @@ for (let i = 0; i< a.length; i++) {
 	a[i].addEventListener("mouseenter", () => {
 		a[i].style.height = "calc(100% + 200px)"
 		a[i].style.zIndex = 1;
+		a[i].style.scale = 1.05;
 	});
 	a[i].addEventListener("mouseleave", () => {
 		a[i].style.height = "auto"
 		a[i].style.zIndex = 0;
+		a[i].style.scale = 1;
 	})
 }
 
+input.addEventListener("keyup", key => {
+	if(key.key === "Enter") {
+		console.log("aaa")
+		if(typeof input.value == "string" && search.value != "") {
+			search(input.value);
+			console.log("type string");
+			console.log(input.value);	
+		}
+	}
+})
 
-async function home(searchValue) {
+async function search(searchValue) {
+	const response = await fetch(`${basicUrl}?key=${key}&search=${searchValue}&page=1`);
+	const data = await response.json();
+	console.log("search");
+	console.log(data);
+}
+
+async function home() {
 	let lastYear = days(365, "-");
 
-	const response = await fetch(`${basicUrl}key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released,-rating,-metacritic`);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released,-rating,-metacritic`);
 	const data = await response.json();
 	console.log("home");
 	console.log(data);
