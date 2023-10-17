@@ -215,3 +215,19 @@ body {
     margin-bottom: 20px;
     display: none;
 }
+
+.plus > h4 {
+    font-weight: bolder;
+    font-size: large;
+}
+
+@keyframes animation {
+    0% {background-color: black;}
+    50% {background-color: red;}
+}
+
+.cube {
+    width: 100px;
+    height: 100px;
+    animation: animation 1s linear infinite;
+}
