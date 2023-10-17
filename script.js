@@ -1,8 +1,14 @@
 const key = "73d26e50a7cf40d7a5ce139d275e2bfc";
-const input = document.getElementById("search");
 const basicUrl = "https://api.rawg.io/api/games";
+const input = document.getElementById("search");
+const calendarElement = document.getElementById("calendar");
+const monthsElement = document.getElementById("months");
 let date = new Date();
 date = date.toISOString().split('T')[0];
+
+calendarElement.addEventListener("click", () => {
+	monthsElement.style.display = "flex";
+})
 
 let a = document.getElementsByClassName("block");
 console.log(a)

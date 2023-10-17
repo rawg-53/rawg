@@ -35,7 +35,7 @@ body {
     padding: 40px 30px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
     position: sticky;
     top: 0;
 }
@@ -44,13 +44,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 }
 
 .main {
-    margin-left: 250px;
+    margin-right: 10px;
+    margin-left: 240px;
     padding: 10px 10px 0 0;
-    /* width: calc(100% - 260px); */
     position: relative;
     bottom: 400px;
 }
@@ -100,8 +99,9 @@ body {
     color: hsla(0,0%,100%,.6);
 }
 
-.input{
-    color: hsla(0,0%,100%,.6);
+.input {
+    transition: all 0.3s;
+    color: rgb(82, 82, 82);
     font-size: 14px;
     width: 96%;
     height: 40px;
@@ -109,7 +109,19 @@ body {
     padding: 22px 0 22px 40px;
     background-color: hsla(0,0%,100%,.16);
     box-shadow: none;
+    text-decoration: none;
+    appearance: none;
+    outline: none;
 }
+
+.input:hover {
+    background-color: white;
+}
+
+.input:hover::placeholder {
+    color: rgb(162, 162, 162);
+}
+
 .a1{
     text-decoration: none;
     font-size: 15px;
@@ -123,7 +135,7 @@ body {
     line-height: 1;
     letter-spacing: 5px;
     color: white;
-    font-size: 30px;
+    font-size: 18px;
 
 }
 
@@ -142,7 +154,7 @@ body {
     align-items: center;
     gap: 15px;
     position: relative;
-    right: 30px;
+    right: 39px;
 }
 
 .select-1{
@@ -196,9 +208,10 @@ body {
 
 /* // */
 
-.months {
+#months {
     display: flex;
     padding: 5px;
     gap: 20px;
     margin-bottom: 20px;
+    display: none;
 }
