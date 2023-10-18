@@ -148,7 +148,7 @@ function days(days, sign) {
 	return date;
 }
 
-// home();
+home();
 
 // lastMonth();
 
