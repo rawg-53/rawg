@@ -21,6 +21,10 @@ const last30 = document.getElementById("last-month");
 const this7 = document.getElementById("this-week");
 const next7 = document.getElementById("next-week");
 
+let page = 1;
+let date = new Date();
+date = date.toISOString().split('T')[0];
+
 homePage.addEventListener("click", () => {
 	home();
 });
@@ -34,9 +38,6 @@ next7.addEventListener("click", () => {
 	nextWeek();
 });
 
-let page = 1;
-let date = new Date();
-date = date.toISOString().split('T')[0];
 
 calendarElement.addEventListener("click", () => {
 	monthsElement.style.display = "flex";
