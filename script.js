@@ -3,7 +3,19 @@ const basicUrl = "https://api.rawg.io/api/games";
 const input = document.getElementById("search");
 const calendarElement = document.getElementById("calendar");
 const monthsElement = document.getElementById("months");
+const blocksContainer = document.getElementById("blocks-container");
 const blocks = document.getElementsByClassName("block");
+const exampleBlock = `
+<div class="block game-card">
+<img src="" alt="">
+<div class="bottom">
+<p></p>
+<div class="plus">
+<h4>+</h4><h4>lol ne mogu</h4>
+</div>
+</div>
+</div>
+`;
 const homePage = document.getElementById("home")
 const last30 = document.getElementById("last-month");
 const this7 = document.getElementById("this-week");
@@ -113,14 +125,15 @@ function months(month) {
 	
 }
 
+
 function repeatingLoop(data) {
-	for (let i = 0; i < blocks.length; i++) {
-		if(i<data.results.length) {
-			blocks[i].firstElementChild.src = data.results[i].background_image;
-			blocks[i].children[1].firstElementChild.innerText = data.results[i].name;
-		} else {
-			// blocks[i].innerHTML = ""
-		}
+	blocksContainer.innerHTML = "";
+	for(let i = 0; i < data.results.length; i++) {
+		blocksContainer.innerHTML = blocksContainer.innerHTML + exampleBlock; 
+	}
+	for (let i = 0; i < data.results.length; i++) {
+		blocks[i].firstElementChild.src = data.results[i].background_image;
+		blocks[i].children[1].firstElementChild.innerText = data.results[i].name;
 	}
 }
 
@@ -148,7 +161,7 @@ function days(days, sign) {
 	return date;
 }
 
-home();
+// home();
 
 // lastMonth();
 
