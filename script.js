@@ -22,6 +22,28 @@ const last30 = document.getElementById("last-month");
 const this7 = document.getElementById("this-week");
 const next7 = document.getElementById("next-week");
 const bestOfYear = document.getElementById("best-of-year");
+const searchWrapper = document.querySelector(".search-wrapper");
+const dropwdownList = document.querySelector(".dropdown_list");
+const listItem = document.querySelector(".dropdown_list_item");
+const listItemText = document.querySelector(".list_item_text");
+const list_item_image = document.querySelector(".list_item_image");
+const searchIcon = document.querySelector("#search-icon");
+document.querySelector("html").addEventListener("click", (e) => {
+  if (
+    e.target !== searchWrapper &&
+    e.target !== input &&
+    e.target !== searchIcon &&
+    e.target !== dropwdownList &&
+    e.target !== listItem &&
+    e.target !== listItemText &&
+    e.target !== list_item_image
+  ) {
+    searchWrapper.style.display = "none";
+    dropwdownList.innerHTML = "";
+  }
+});
+
+
 
 let page = 1;
 let date = new Date();
@@ -54,23 +76,11 @@ calendarElement.addEventListener("click", () => {
 	monthsElement.style.display = "flex";
 });
 
-input.addEventListener("keyup", key => {
-	if(key.key === "Enter") {
-		console.log("aaa")
-		if(typeof input.value == "string" && search.value != "") {
-			search(input.value);
-			console.log("type string");
-			console.log(input.value);
-		}
-	}
-})
-
 async function search(searchValue) {
 	const response = await fetch(`${basicUrl}?key=${key}&search=${searchValue}&page=1`);
 	const data = await response.json();
-	console.log("search");
-	console.log(data);
-}
+	return data;
+  }
 
 async function home() {
 	let lastYear = days(365, "-");
@@ -181,5 +191,63 @@ function days(days, sign) {
 	date1 = date1.toISOString().split('T')[0];
 	return date1;
 }
+
+input.addEventListener("keyup", async (e) => {
+	searchWrapper.style = "display: flex";
+	dropwdownList.style = "display: flex";
+	dropwdownList.innerHTML = "";
+	let value = e.target.value;
+	if (value !== "") {
+	  	search(value)
+			.then(async (res) => {
+			  	try {
+					let li1 = document.createElement("li");
+					let span1 = document.createElement("span");
+					if (res.count > 0) {
+					  	li1.innerText = "Games";
+					  	span1.innerHTML = `&ThinSpace; ${res?.count}`;
+					  	span1.className = "game_number";
+					  	li1.className = "dropdown_list_item subheader";
+					  	li1.append(span1);
+					  	dropwdownList.appendChild(li1);
+					
+					  	return res.results.map((game) => {
+							let li = document.createElement("li");
+							let span = document.createElement("span");
+							let p = document.createElement("p");
+							let img = document.createElement("img");
+
+							img.src = game?.background_image;
+							span;
+							img.className = "list_item_image";
+							img.alt = "game_image";
+							span.className = "additional_layer";
+							p.className = "list_item_text";
+							p.innerText = game?.name;
+							li.className = "dropdown_list_item";
+							li.append(img);
+							li.append(span);
+							li.append(p);
+							return dropwdownList.appendChild(li);
+						});
+					} else {
+				  		let notFound = document.querySelector(".not_found_res");
+				  		notFound.style.display = "block";
+				  		dropwdownList.style.display = "none";
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			})
+			.catch((err) => {
+			  console.log(err);
+			});
+		} else {
+		  searchWrapper.style.display = "none";
+		  dropwdownList.style = "display: flex";
+		}
+  	});
+
+
 
 home();
