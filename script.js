@@ -123,6 +123,8 @@ async function monthly(month) {
 	repeatingLoop(data);
 }
 
+
+
 function handleMonths(month) {
 	let s = new Date()
 	s.setMonth(month)
@@ -158,8 +160,6 @@ function repeatingLoop(data) {
 	}
 }
 
-
-
 /** takes 
  * @param {number} days amount of days
  * @param {string} sign plus or minus
@@ -182,8 +182,4 @@ function days(days, sign) {
 	return date1;
 }
 
-// home();	
-
-// lastMonth();
-
-// lastWeek();
+home();
