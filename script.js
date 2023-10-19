@@ -21,7 +21,7 @@ const homePage = document.getElementById("home")
 const last30 = document.getElementById("last-month");
 const this7 = document.getElementById("this-week");
 const next7 = document.getElementById("next-week");
-const bestOfYear = document.getElementById("best-of-year");
+const bestOfYearElement = document.getElementById("best-of-year");
 const searchWrapper = document.querySelector(".search-wrapper");
 const dropwdownList = document.querySelector(".dropdown_list");
 const listItem = document.querySelector(".dropdown_list_item");
@@ -127,6 +127,17 @@ async function monthly(month) {
 	let date2 = handleMonths(month + 1)
 	let month2 = month + 1;
 	console.log(month2);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+async function bestOfYear() {
+	let s = new Date();
+	s.setMonth('00');
+	s = s.toISOString().split('T')[0];
+	
 	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
 	const data = await response.json();
 	console.log(data);
