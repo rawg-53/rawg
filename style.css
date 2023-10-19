@@ -228,3 +228,7 @@ body {
     font-weight: bolder;
     font-size: large;
 }
+
+.month {
+    cursor: pointer;
+}
