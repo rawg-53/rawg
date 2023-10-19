@@ -40,6 +40,10 @@ body {
     top: 0;
 }
 
+.sidebar * {
+    width: fit-content;
+}
+
 .sidebar ul {
     display: flex;
     flex-direction: column;
@@ -58,6 +62,10 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+#home {
+    cursor: pointer;
 }
 /* /// */
 

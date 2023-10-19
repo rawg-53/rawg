@@ -38,25 +38,9 @@ next7.addEventListener("click", () => {
 	nextWeek();
 });
 
-
 calendarElement.addEventListener("click", () => {
 	monthsElement.style.display = "flex";
 });
-
-let a = document.getElementsByClassName("block");
-console.log(a)
-for (let i = 0; i< a.length; i++) {
-	a[i].addEventListener("mouseenter", () => {
-		a[i].style.height = "calc(100% + 200px)"
-		a[i].style.zIndex = 1;
-		a[i].style.scale = 1.05;
-	});
-	a[i].addEventListener("mouseleave", () => {
-		a[i].style.height = "auto"
-		a[i].style.zIndex = 0;
-		a[i].style.scale = 1;
-	});
-}
 
 input.addEventListener("keyup", key => {
 	if(key.key === "Enter") {
@@ -136,6 +120,20 @@ function repeatingLoop(data) {
 		blocks[i].firstElementChild.src = data.results[i].background_image;
 		blocks[i].children[1].firstElementChild.innerText = data.results[i].name;
 	}
+	let a = document.getElementsByClassName("block");
+	console.log(a)
+	for (let i = 0; i< a.length; i++) {
+		a[i].addEventListener("mouseenter", () => {
+			a[i].style.height = "calc(100% + 200px)"
+			a[i].style.zIndex = 1;
+			a[i].style.scale = 1.05;
+		});
+		a[i].addEventListener("mouseleave", () => {
+			a[i].style.height = "auto"
+			a[i].style.zIndex = 0;
+			a[i].style.scale = 1;
+		});
+	}
 }
 
 
@@ -162,7 +160,7 @@ function days(days, sign) {
 	return date;
 }
 
-// home();
+// home();	
 
 // lastMonth();
 
