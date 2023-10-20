@@ -187,7 +187,7 @@ async function top250() {
 	repeatingLoop(data);
 }
 
-let pageSizeForLoadMore = 0;
+let pageSizeForLoadMore = 20;
 
 async function loadMore() {
 	pageSizeForLoadMore += 20
