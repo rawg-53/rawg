@@ -1,3 +1,14 @@
+const exampleBlock = `
+<div class="block game-card">
+<img src="" alt="no image or bad connection">
+<div class="bottom">
+<p></p>
+<div class="plus">
+<h4>+</h4><h4>lol ne mogu</h4>
+</div>
+</div>
+</div>
+`;
 const key = "73d26e50a7cf40d7a5ce139d275e2bfc";
 const basicUrl = "https://api.rawg.io/api/games";
 const input = document.getElementById("search");
