@@ -18,6 +18,7 @@ const blocksContainer = document.getElementById("blocks-container");
 const blocks = document.getElementsByClassName("block");
 const searchWrapper = document.querySelector(".search-wrapper");
 const dropwdownList = document.querySelector(".dropdown_list");
+const notFound = document.querySelector(".not_found_res");
 const listItem = document.querySelector(".dropdown_list_item");
 const listItemText = document.querySelector(".list_item_text");
 const list_item_image = document.querySelector(".list_item_image");
@@ -36,17 +37,7 @@ document.querySelector("html").addEventListener("click", (e) => {
     dropwdownList.innerHTML = "";
   }
 });
-const exampleBlock = `
-<div class="block game-card">
-<img src="" alt="">
-<div class="bottom">
-<p></p>
-<div class="plus">
-<h4>+</h4><h4>lol ne mogu</h4>
-</div>
-</div>
-</div>
-`;
+
 const homePage = document.getElementById("home");
 const last30 = document.getElementById("last-month");
 const this7 = document.getElementById("this-week");
@@ -199,18 +190,21 @@ async function search(searchValue) {
   return data;
 }
 
-input.addEventListener("keyup", async (e) => {
+input.addEventListener("change", async (e) => {
   searchWrapper.style = "display: flex";
   dropwdownList.style = "display: flex";
   dropwdownList.innerHTML = "";
+
   let value = e.target.value;
   if (value !== "") {
+    input.style.backgroundColor = "white";
     search(value)
       .then(async (res) => {
         try {
           let li1 = document.createElement("li");
           let span1 = document.createElement("span");
           if (res.count > 0) {
+            notFound.style.display = "none";
             li1.innerText = "Games";
             span1.innerHTML = `&ThinSpace; ${res?.count}`;
             span1.className = "game_number";
@@ -238,11 +232,12 @@ input.addEventListener("keyup", async (e) => {
               return dropwdownList.appendChild(li);
             });
           } else {
-            let notFound = document.querySelector(".not_found_res");
             notFound.style.display = "block";
             dropwdownList.style.display = "none";
           }
         } catch (error) {
+          notFound.style.display = "none";
+          notFound.innerHTML = error.message;
           console.log(error);
         }
       })
@@ -250,6 +245,7 @@ input.addEventListener("keyup", async (e) => {
         console.log(err);
       });
   } else {
+    input.style.backgroundColor = "#ffffff29";
     searchWrapper.style.display = "none";
     dropwdownList.style = "display: flex";
   }
@@ -260,5 +256,3 @@ input.addEventListener("keyup", async (e) => {
 // lastMonth();
 
 // lastWeek();
-
-
