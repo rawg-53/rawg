@@ -30,6 +30,7 @@ const listItem = document.querySelector(".dropdown_list_item");
 const listItemText = document.querySelector(".list_item_text");
 const list_item_image = document.querySelector(".list_item_image");
 const searchIcon = document.querySelector("#search-icon");
+const loadButton = document.getElementById("load-more");
 document.querySelector("html").addEventListener("click", (e) => {
   if (
     e.target !== searchWrapper &&
@@ -45,11 +46,10 @@ document.querySelector("html").addEventListener("click", (e) => {
   }
 });
 
-
-
-let page = 1;
 let date = new Date();
 date = date.toISOString().split('T')[0];
+
+
 
 for(let i = 0; i < months.length; i++) {
 	months[i].addEventListener("click", () => {
@@ -86,6 +86,10 @@ calendarElement.addEventListener("click", () => {
 	monthsElement.style.display = "flex";
 });
 
+loadButton.addEventListener("click", () => {
+	loadMore();
+})
+
 async function search(searchValue) {
 	const response = await fetch(`${basicUrl}?key=${key}&search=${searchValue}&page=1`);
 	const data = await response.json();
@@ -95,7 +99,7 @@ async function search(searchValue) {
 async function home() {
 	let lastYear = days(365, "-");
 
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released-rating&page=${page}`);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released-rating&page=1`);
 	const data = await response.json();
 	console.log("home");
 	console.log(data);
@@ -137,7 +141,7 @@ async function monthly(month) {
 	let date2 = handleMonths(month + 1)
 	let month2 = month + 1;
 	console.log(month2);
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-release`);
 	const data = await response.json();
 	console.log(data);
 	repeatingLoop(data);
@@ -153,7 +157,7 @@ async function bestOfYear() {
 	date1 = handleMonths('00');
 	console.log(date2)
 	
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-rating,-metacritic`);
 	const data = await response.json();
 	console.log(data);
 	repeatingLoop(data);
@@ -170,14 +174,24 @@ async function bestOfLastYear() {
 	date2 = date2.toISOString().split('T')[0];
 	date1 = date1.toISOString().split('T')[0];
 	
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-rating,-metacritic`);
 	const data = await response.json();
 	console.log(data);
 	repeatingLoop(data);
 }
 
 async function top250() {
-	const response = await fetch(`${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`);
+	const response = await fetch(`${basicUrl}?key=${key}&page_size=50&ordering=-rating,-metacritic`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+let pageSizeForLoadMore = 0;
+
+async function loadMore() {
+	pageSizeForLoadMore += 20
+	const response = await fetch(`${basicUrl}?key=${key}&page_size=${pageSizeForLoadMore}&ordering=-rating,-metacritic`);
 	const data = await response.json();
 	console.log(data);
 	repeatingLoop(data);
