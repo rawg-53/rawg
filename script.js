@@ -191,9 +191,10 @@ let pageForLoadMore = 1;
 
 async function loadMore() {
 	pageForLoadMore++;
-	const response = await fetch(`${basicUrl}?key=${key}$page=${pageForLoadMore}&page_size=20&ordering=-rating,-metacritic`);
+	const response = await fetch(`${basicUrl}?key=${key}&page=${pageForLoadMore}&ordering=-rating,-metacritic`);
 	const data = await response.json();
 	console.log(data);
+	repeatingLoop(data)
 }
 
 
