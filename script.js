@@ -346,7 +346,7 @@ function handleMonths(month) {
   
   s.setMonth(month);
   s.setDate(1);
-  clickedCategory = `Released in ${s.getMonth()}`;
+  clickedCategory = `Best of the year`;
   s = s.toISOString().split("T")[0];
   console.log(s);
   return s;
