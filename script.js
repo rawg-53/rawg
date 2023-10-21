@@ -71,7 +71,7 @@ next7.addEventListener("click", () => {
   nextWeek();
 });
 
-bestOfLastYearElement.addEventListener("click", () => {
+bestOfYearElement.addEventListener("click", () => {
   clickedCategory = "Best Of The Year";
   bestOfYear();
 });
@@ -278,7 +278,7 @@ async function monthly(month) {
   let month2 = month + 1;
   console.log(month2);
   const response = await fetch(
-    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-release`
   );
   const data = await response.json();
   if (data) loader[1].style.display = "none";
@@ -299,7 +299,7 @@ async function bestOfYear() {
   console.log(date2);
 
   const response = await fetch(
-    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-rating,-metacritic`
   );
   const data = await response.json();
   if (data) loader[1].style.display = "none";
@@ -321,10 +321,10 @@ async function bestOfLastYear() {
   loader[1].style.display = "block";
 
   const response = await fetch(
-    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-rating,-metacritic`
   );
-  if (data) loader[1].style.display = "none";
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
   console.log(data);
   repeatingLoop(data);
 }
@@ -333,7 +333,7 @@ async function top250() {
   loader[1].style.display = "block";
 
   const response = await fetch(
-    `${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`
+    `${basicUrl}?key=${key}&page=1&page-size=40&ordering=-rating,-metacritic`
   );
   const data = await response.json();
   if (data) loader[1].style.display = "none";
