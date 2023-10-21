@@ -51,6 +51,17 @@ let page = 1;
 let date = new Date();
 date = date.toISOString().split('T')[0];
 
+async function monthly(month) {
+	let date1 = handleMonths(month);
+	let date2 = handleMonths(month + 1)
+	let month2 = month + 1;
+	console.log(month2);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
 for(let i = 0; i < months.length; i++) {
 	months[i].addEventListener("click", () => {
 		monthly(months[i].value)
@@ -90,11 +101,12 @@ async function search(searchValue) {
 	const response = await fetch(`${basicUrl}?key=${key}&search=${searchValue}&page=1`);
 	const data = await response.json();
 	return data;
-  }
+}
+
 
 async function home() {
 	let lastYear = days(365, "-");
-
+	
 	const response = await fetch(`${basicUrl}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released-rating&page=${page}`);
 	const data = await response.json();
 	console.log("home");
@@ -132,16 +144,6 @@ async function nextWeek() {
 	repeatingLoop(data);
 }
 
-async function monthly(month) {
-	let date1 = handleMonths(month);
-	let date2 = handleMonths(month + 1)
-	let month2 = month + 1;
-	console.log(month2);
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
-	const data = await response.json();
-	console.log(data);
-	repeatingLoop(data);
-}
 
 async function bestOfYear() {
 	let date1 = new Date();
