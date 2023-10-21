@@ -238,10 +238,10 @@ body {
     z-index: 10;
     transition: all 0.3s ease-in-out;
     position: absolute;
-    top: 60px;
-    left: 0;
+    top: 85px;
+    left: 137px;
     z-index: 10;
-    width: 96%;
+    width: 60%;
     max-height: 50vh;
     padding: 20px 20px;
     border-radius: 20px;
