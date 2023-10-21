@@ -70,7 +70,7 @@ next7.addEventListener("click", () => {
   nextWeek();
 });
 
-bestOfLastYearElement.addEventListener("click", () => {
+bestOfYearElement.addEventListener("click", () => {
   clickedCategory = "Best Of The Year";
   bestOfYear();
 });
@@ -276,21 +276,19 @@ async function monthly(month) {
 }
 
 async function bestOfYear() {
-  let date1 = new Date();
-  let date2 = new Date();
-  date2.setFullYear(date1.getFullYear() + 1);
-  date2.setMonth("00");
-  date2.setDate("01");
-  date2 = date2.toISOString().split("T")[0];
-  date1 = handleMonths("00");
-  console.log(date2);
-
-  const response = await fetch(
-    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
-  );
-  const data = await response.json();
-  console.log(data);
-  repeatingLoop(data);
+	let date1 = new Date();
+	let date2 = new Date();
+	date2.setFullYear(date1.getFullYear() + 1);
+	date2.setMonth("00");
+	date2.setDate("01");
+	date2 = date2.toISOString().split('T')[0];
+	date1 = handleMonths('00');
+	console.log(date2)
+	
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
 }
 
 async function bestOfLastYear() {
