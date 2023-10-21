@@ -187,14 +187,13 @@ async function top250() {
 	repeatingLoop(data);
 }
 
-let pageSizeForLoadMore = 20;
+let pageForLoadMore = 1;
 
 async function loadMore() {
-	pageSizeForLoadMore += 20
-	const response = await fetch(`${basicUrl}?key=${key}&page_size=${pageSizeForLoadMore}&ordering=-rating,-metacritic`);
+	pageForLoadMore++;
+	const response = await fetch(`${basicUrl}?key=${key}$page=${pageForLoadMore}&page_size=20&ordering=-rating,-metacritic`);
 	const data = await response.json();
 	console.log(data);
-	repeatingLoop(data);
 }
 
 
