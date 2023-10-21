@@ -14,6 +14,7 @@ const basicUrl = "https://api.rawg.io/api/games";
 const input = document.getElementById("search");
 const calendarElement = document.getElementById("calendar");
 const monthsElement = document.getElementById("months");
+const months = document.getElementsByClassName("month")
 const blocksContainer = document.getElementById("blocks-container");
 const blocks = document.getElementsByClassName("block");
 const bestOfYearElement = document.getElementById("best-of-year");
@@ -265,8 +266,6 @@ date = date.toISOString().split('T')[0];
 async function monthly(month) {
 	let date1 = handleMonths(month);
 	let date2 = handleMonths(month + 1)
-	let month2 = month + 1;
-	console.log(month2);
 	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
 	const data = await response.json();
 	console.log(data);
@@ -332,12 +331,6 @@ async function monthly(month) {
 	const data = await response.json();
 	console.log(data);
 	repeatingLoop(data);
-}
-
-for(let i = 0; i < months.length; i++) {
-	months[i].addEventListener("click", () => {
-		monthly(months[i].value)
-	})
 }
 
 function handleMonths(month) {
