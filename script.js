@@ -319,6 +319,23 @@ async function top250() {
   repeatingLoop(data);
 }
 
+async function monthly(month) {
+	let date1 = handleMonths(month);
+	let date2 = handleMonths(month + 1)
+	let month2 = month + 1;
+	console.log(month2);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+for(let i = 0; i < months.length; i++) {
+	months[i].addEventListener("click", () => {
+		monthly(months[i].value)
+	})
+}
+
 function handleMonths(month) {
   let s = new Date();
   s.setMonth(month);
