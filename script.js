@@ -27,6 +27,7 @@ const list_item_image = document.querySelector(".list_item_image");
 const loader = document.querySelector(".loader");
 const searchIcon = document.querySelector("#search-icon");
 const searchIconBlack = document.querySelector("#search-icon_black");
+let clickedCategory = "Home";
 document.querySelector("html").addEventListener("click", (e) => {
   if (
     e.target !== searchWrapper &&
@@ -52,27 +53,34 @@ let date = new Date();
 date = date.toISOString().split("T")[0];
 
 homePage.addEventListener("click", () => {
+  clickedCategory = "Home";
   home();
 });
 last30.addEventListener("click", () => {
+  clickedCategory = "Last 30 Days";
   lastMonth();
 });
 this7.addEventListener("click", () => {
+  clickedCategory = "Last Week";
   lastWeek();
 });
 next7.addEventListener("click", () => {
+  clickedCategory = "Next Week";
   nextWeek();
 });
 
 bestOfLastYearElement.addEventListener("click", () => {
+  clickedCategory = "Best Of The Year";
   bestOfYear();
 });
 
 bestOfLastYearElement.addEventListener("click", () => {
+  clickedCategory = "Best Of The Last Year";
   bestOfLastYear();
 });
 
 top250Element.addEventListener("click", () => {
+  clickedCategory = "Top 250";
   top250();
 });
 
@@ -316,6 +324,7 @@ function handleMonths(month) {
   let s = new Date();
   s.setMonth(month);
   s.setDate(1);
+  clickedCategory = `Released in ${s.getMonth()}`;
   s = s.toISOString().split("T")[0];
   console.log(s);
   return s;
@@ -323,7 +332,7 @@ function handleMonths(month) {
 
 function repeatingLoop(data) {
   blocksContainer.innerHTML = `
-  <h2 style="display: inline; position: absolute; top: -50px;">Game Category</h2>
+  <h2 style="display: inline; position: absolute; top: -50px;">${clickedCategory}</h2>
   `;
   for (let i = 0; i < data.results.length; i++) {
     blocksContainer.innerHTML = blocksContainer.innerHTML + exampleBlock;
