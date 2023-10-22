@@ -22,7 +22,9 @@ const notFound = document.querySelector(".not_found_res");
 const listItem = document.querySelector(".dropdown_list_item");
 const listItemText = document.querySelector(".list_item_text");
 const list_item_image = document.querySelector(".list_item_image");
+const loader = document.querySelector(".loader");
 const searchIcon = document.querySelector("#search-icon");
+const searchIconBlack = document.querySelector("#search-icon_black");
 document.querySelector("html").addEventListener("click", (e) => {
   if (
     e.target !== searchWrapper &&
@@ -65,14 +67,124 @@ calendarElement.addEventListener("click", () => {
 });
 
 input.addEventListener("keyup", (key) => {
-  if (key.key === "Enter") {
-    console.log("aaa");
-    if (typeof input.value == "string" && search.value != "") {
-      search(input.value);
-      console.log("type string");
-      console.log(input.value);
+  let value = key.target.value;
+
+  if (value !== "") {
+    input.style.backgroundColor = "white";
+    searchIcon.style.display = "none";
+    searchIconBlack.style.display = "inline";
+    // searchIcon.style.backgroundColor = "black"
+    searchIcon.style.fill = "black";
+    if (key.key === "Enter") {
+      searchWrapper.style = "display: flex";
+      dropwdownList.style = "display: flex";
+      dropwdownList.innerHTML = "";
+      loader.style.display = "inline-block";
+      setTimeout(() => {
+        search(value)
+          .then(async (res) => {
+            try {
+              let li1 = document.createElement("li");
+              let span1 = document.createElement("span");
+              if (res.count > 0) {
+                notFound.style.display = "none";
+                li1.innerText = "Games";
+                span1.innerHTML = `&ThinSpace; ${res?.count}`;
+                span1.className = "game_number";
+                li1.className = "dropdown_list_item subheader";
+                li1.append(span1);
+                dropwdownList.appendChild(li1);
+
+                return res.results.map((game) => {
+                  let li = document.createElement("li");
+                  let span = document.createElement("span");
+                  let p = document.createElement("p");
+                  let img = document.createElement("img");
+
+                  img.src = game?.background_image;
+                  span;
+                  img.className = "list_item_image";
+                  img.alt = "game_image";
+                  span.className = "additional_layer";
+                  p.className = "list_item_text";
+                  p.innerText = game?.name;
+                  li.className = "dropdown_list_item";
+                  li.append(img);
+                  li.append(span);
+                  li.append(p);
+                  return dropwdownList.appendChild(li);
+                });
+              } else {
+                notFound.style.display = "block";
+                dropwdownList.style.display = "none";
+              }
+            } catch (error) {
+              notFound.style.display = "none";
+              notFound.innerHTML = error.message;
+              console.log(error);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }, 5000);
     }
+  } else {
+    input.style.backgroundColor = "#ffffff29";
+    searchWrapper.style.display = "none";
+    searchIcon.style.display = "inline";
+    searchIconBlack.style.display = "none";
+    dropwdownList.style = "display: flex";
   }
+});
+
+searchIconBlack.addEventListener("click", () => {
+  search(input.value)
+    .then(async (res) => {
+      try {
+        let li1 = document.createElement("li");
+        let span1 = document.createElement("span");
+        if (res.count > 0) {
+          notFound.style.display = "none";
+          li1.innerText = "Games";
+          span1.innerHTML = `&ThinSpace; ${res?.count}`;
+          span1.className = "game_number";
+          li1.className = "dropdown_list_item subheader";
+          li1.append(span1);
+          dropwdownList.appendChild(li1);
+
+          return res.results.map((game) => {
+            let li = document.createElement("li");
+            let span = document.createElement("span");
+            let p = document.createElement("p");
+            let img = document.createElement("img");
+
+            img.src = game?.background_image;
+            span;
+            img.className = "list_item_image";
+            img.alt = "game_image";
+            span.className = "additional_layer";
+            p.className = "list_item_text";
+            p.innerText = game?.name;
+            li.className = "dropdown_list_item";
+            li.append(img);
+            li.append(span);
+            li.append(p);
+            return dropwdownList.appendChild(li);
+          });
+        } else {
+          notFound.style.display = "block";
+          dropwdownList.style.display = "none";
+        }
+      } catch (error) {
+        notFound.style.display = "none";
+        notFound.innerHTML = error.message;
+        console.log(error);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
 async function home() {
@@ -189,67 +301,6 @@ async function search(searchValue) {
   const data = await response.json();
   return data;
 }
-
-input.addEventListener("change", async (e) => {
-  searchWrapper.style = "display: flex";
-  dropwdownList.style = "display: flex";
-  dropwdownList.innerHTML = "";
-
-  let value = e.target.value;
-  if (value !== "") {
-    input.style.backgroundColor = "white";
-    search(value)
-      .then(async (res) => {
-        try {
-          let li1 = document.createElement("li");
-          let span1 = document.createElement("span");
-          if (res.count > 0) {
-            notFound.style.display = "none";
-            li1.innerText = "Games";
-            span1.innerHTML = `&ThinSpace; ${res?.count}`;
-            span1.className = "game_number";
-            li1.className = "dropdown_list_item subheader";
-            li1.append(span1);
-            dropwdownList.appendChild(li1);
-
-            return res.results.map((game) => {
-              let li = document.createElement("li");
-              let span = document.createElement("span");
-              let p = document.createElement("p");
-              let img = document.createElement("img");
-
-              img.src = game?.background_image;
-              span;
-              img.className = "list_item_image";
-              img.alt = "game_image";
-              span.className = "additional_layer";
-              p.className = "list_item_text";
-              p.innerText = game?.name;
-              li.className = "dropdown_list_item";
-              li.append(img);
-              li.append(span);
-              li.append(p);
-              return dropwdownList.appendChild(li);
-            });
-          } else {
-            notFound.style.display = "block";
-            dropwdownList.style.display = "none";
-          }
-        } catch (error) {
-          notFound.style.display = "none";
-          notFound.innerHTML = error.message;
-          console.log(error);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  } else {
-    input.style.backgroundColor = "#ffffff29";
-    searchWrapper.style.display = "none";
-    dropwdownList.style = "display: flex";
-  }
-});
 
 // home();
 
