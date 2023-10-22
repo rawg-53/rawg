@@ -16,6 +16,8 @@ const calendarElement = document.getElementById("calendar");
 const monthsElement = document.getElementById("months");
 const blocksContainer = document.getElementById("blocks-container");
 const blocks = document.getElementsByClassName("block");
+const bestOfLastYearElement = document.getElementById("best-of-last-year");
+const top250Element = document.getElementById("top-250");
 const searchWrapper = document.querySelector(".search-wrapper");
 const dropwdownList = document.querySelector(".dropdown_list");
 const notFound = document.querySelector(".not_found_res");
@@ -61,6 +63,18 @@ this7.addEventListener("click", () => {
 next7.addEventListener("click", () => {
   nextWeek();
 });
+
+bestOfYearElement.addEventListener("click", () => {
+	bestOfYear();
+})
+
+bestOfLastYearElement.addEventListener("click", () => {
+	bestOfLastYear();
+})
+
+top250Element.addEventListener("click", () => {
+	top250();
+})
 
 calendarElement.addEventListener("click", () => {
   monthsElement.style.display = "flex";
@@ -236,12 +250,65 @@ async function nextWeek() {
 }
 
 async function monthly(month) {
-  const response = await fetch(`${basicUrl}?key=${key}&dates=`);
+	let date1 = handleMonths(month);
+	let date2 = handleMonths(month + 1)
+	let month2 = month + 1;
+	console.log(month2);
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
 }
 
-function months(month) {
-  let date = new Date();
-  date.setMonth(month);
+async function bestOfYear() {
+	let date1 = new Date();
+	let date2 = new Date();
+	date2.setFullYear(date1.getFullYear() + 1);
+	date2.setMonth("00");
+	date2.setDate("01");
+	date2 = date2.toISOString().split('T')[0];
+	date1 = handleMonths('00');
+	console.log(date2)
+	
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+async function bestOfLastYear() {
+	let date1 = new Date();
+	let date2 = new Date();
+	date1.setFullYear(date1.getFullYear() - 1);
+	date2.setMonth("00");
+	date2.setDate("01");
+	date1.setMonth("00");
+	date1.setDate("01");
+	date2 = date2.toISOString().split('T')[0];
+	date1 = date1.toISOString().split('T')[0];
+	
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+async function top250() {
+	const response = await fetch(`${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`);
+	const data = await response.json();
+	console.log(data);
+	repeatingLoop(data);
+}
+
+
+
+function handleMonths(month) {
+	let s = new Date()
+	s.setMonth(month)
+	s.setDate(1)
+	s = s.toISOString().split('T')[0];
+	console.log(s)
+	return s;
 }
 
 function repeatingLoop(data) {

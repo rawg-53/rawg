@@ -112,18 +112,18 @@ body {
 }
 
 .input {
-  transition: all 0.3s;
-  color: rgb(82, 82, 82);
-  font-size: 14px;
-  width: 96%;
-  height: 40px;
-  border-radius: 50px;
-  padding: 22px 0 22px 40px;
-  background-color: #ffffff29;
-  box-shadow: none;
-  text-decoration: none;
-  appearance: none;
-  outline: none;
+    transition: all 0.3s;
+    color: rgb(82, 82, 82);
+    font-size: 14px;
+    width: 96%;
+    height: 40px;
+    border-radius: 50px;
+    padding: 22px 0 22px 40px;
+    background-color: rgb(60, 60, 60);
+    box-shadow: none;
+    text-decoration: none;
+    appearance: none;
+    outline: none;
 }
 .input:hover {
   background-color: white;
