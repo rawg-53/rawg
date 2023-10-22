@@ -16,6 +16,7 @@ const calendarElement = document.getElementById("calendar");
 const monthsElement = document.getElementById("months");
 const blocksContainer = document.getElementById("blocks-container");
 const blocks = document.getElementsByClassName("block");
+const bestOfYearElement = document.getElementById("best-of-year");
 const bestOfLastYearElement = document.getElementById("best-of-last-year");
 const top250Element = document.getElementById("top-250");
 const searchWrapper = document.querySelector(".search-wrapper");
@@ -24,7 +25,7 @@ const notFound = document.querySelector(".not_found_res");
 const listItem = document.querySelector(".dropdown_list_item");
 const listItemText = document.querySelector(".list_item_text");
 const list_item_image = document.querySelector(".list_item_image");
-const loader = document.querySelector(".loader");
+const loader = document.querySelectorAll(".loader");
 const searchIcon = document.querySelector("#search-icon");
 const searchIconBlack = document.querySelector("#search-icon_black");
 let clickedCategory = "Home";
@@ -101,13 +102,13 @@ input.addEventListener("keyup", (key) => {
       searchWrapper.style = "display: flex";
       dropwdownList.style = "display: flex";
       dropwdownList.innerHTML = "";
-      dropwdownList.append(loader);
-      loader.style.display = "inline-block";
+      dropwdownList.append(loader[0]);
+      loader[0].style.display = "inline-block";
       setTimeout(() => {
         search(value)
           .then(async (res) => {
             try {
-              loader.style.display = "none";
+              loader[0].style.display = "none";
               let li1 = document.createElement("li");
               let span1 = document.createElement("span");
               if (res.count > 0) {
@@ -151,7 +152,7 @@ input.addEventListener("keyup", (key) => {
             console.log(err);
           })
           .finally(() => {
-            loader.style.display = "none";
+            loader[0].style.display = "none";
           });
       }, 5000);
     }
@@ -214,12 +215,14 @@ searchIconBlack.addEventListener("click", () => {
 });
 
 async function home() {
+  loader[1].style.display = "block";
   let lastYear = days(365, "-");
 
   const response = await fetch(
     `${basicUrl}?key=${key}&dates=${lastYear},${date}&fields=announced,unannounced&ordering=-released-rating&page=${page}`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
   console.log("home");
   console.log(data);
   repeatingLoop(data);
@@ -227,11 +230,14 @@ async function home() {
 
 async function lastMonth() {
   let lastMonth = days(31, "-");
+  loader[1].style.display = "block";
 
   const response = await fetch(
     `${basicUrl}?key=${key}&dates=${lastMonth},${date}&fields=released`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
+
   console.log("last month");
   console.log(data);
   repeatingLoop(data);
@@ -244,12 +250,14 @@ async function lastWeek() {
     `${basicUrl}?key=${key}&dates=${lastWeek},${date}&fields=released`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
   console.log("last week");
   console.log(data);
   repeatingLoop(data);
 }
 
 async function nextWeek() {
+  loader[1].style.display = "block";
   let nextWeek = days(7, "+");
   console.log(`next week:::${nextWeek}`);
 
@@ -257,11 +265,13 @@ async function nextWeek() {
     `${basicUrl}?key=${key}&dates=${date},${nextWeek}&fields=announced,unanounced`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
   console.log(data);
   repeatingLoop(data);
 }
 
 async function monthly(month) {
+  loader[1].style.display = "block";
   let date1 = handleMonths(month);
   let date2 = handleMonths(month + 1);
   let month2 = month + 1;
@@ -270,6 +280,8 @@ async function monthly(month) {
     `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
+
   console.log(data);
   repeatingLoop(data);
 }
@@ -277,6 +289,7 @@ async function monthly(month) {
 async function bestOfYear() {
   let date1 = new Date();
   let date2 = new Date();
+  loader[1].style.display = "block";
   date2.setFullYear(date1.getFullYear() + 1);
   date2.setMonth("00");
   date2.setDate("01");
@@ -288,6 +301,8 @@ async function bestOfYear() {
     `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
+
   console.log(data);
   repeatingLoop(data);
 }
@@ -302,26 +317,32 @@ async function bestOfLastYear() {
   date1.setDate("01");
   date2 = date2.toISOString().split("T")[0];
   date1 = date1.toISOString().split("T")[0];
+  loader[1].style.display = "block";
 
   const response = await fetch(
     `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
   );
+  if (data) loader[1].style.display = "none";
   const data = await response.json();
   console.log(data);
   repeatingLoop(data);
 }
 
 async function top250() {
+  loader[1].style.display = "block";
+
   const response = await fetch(
     `${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`
   );
   const data = await response.json();
+  if (data) loader[1].style.display = "none";
   console.log(data);
   repeatingLoop(data);
 }
 
 function handleMonths(month) {
   let s = new Date();
+  
   s.setMonth(month);
   s.setDate(1);
   clickedCategory = `Released in ${s.getMonth()}`;
@@ -331,6 +352,7 @@ function handleMonths(month) {
 }
 
 function repeatingLoop(data) {
+  loader[1].style.display = "none";
   blocksContainer.innerHTML = `
   <h2 style="display: inline; position: absolute; top: -50px;">${clickedCategory}</h2>
   `;
@@ -391,7 +413,7 @@ async function search(searchValue) {
   return data;
 }
 
-// home();
+home();
 
 // lastMonth();
 
