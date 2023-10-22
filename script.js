@@ -64,17 +64,17 @@ next7.addEventListener("click", () => {
   nextWeek();
 });
 
-bestOfYearElement.addEventListener("click", () => {
-	bestOfYear();
-})
+bestOfLastYearElement.addEventListener("click", () => {
+  bestOfYear();
+});
 
 bestOfLastYearElement.addEventListener("click", () => {
-	bestOfLastYear();
-})
+  bestOfLastYear();
+});
 
 top250Element.addEventListener("click", () => {
-	top250();
-})
+  top250();
+});
 
 calendarElement.addEventListener("click", () => {
   monthsElement.style.display = "flex";
@@ -93,15 +93,16 @@ input.addEventListener("keyup", (key) => {
       searchWrapper.style = "display: flex";
       dropwdownList.style = "display: flex";
       dropwdownList.innerHTML = "";
+      dropwdownList.append(loader);
       loader.style.display = "inline-block";
       setTimeout(() => {
         search(value)
           .then(async (res) => {
             try {
+              loader.style.display = "none";
               let li1 = document.createElement("li");
               let span1 = document.createElement("span");
               if (res.count > 0) {
-                notFound.style.display = "none";
                 li1.innerText = "Games";
                 span1.innerHTML = `&ThinSpace; ${res?.count}`;
                 span1.className = "game_number";
@@ -140,6 +141,9 @@ input.addEventListener("keyup", (key) => {
           })
           .catch((err) => {
             console.log(err);
+          })
+          .finally(() => {
+            loader.style.display = "none";
           });
       }, 5000);
     }
@@ -250,69 +254,77 @@ async function nextWeek() {
 }
 
 async function monthly(month) {
-	let date1 = handleMonths(month);
-	let date2 = handleMonths(month + 1)
-	let month2 = month + 1;
-	console.log(month2);
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
-	const data = await response.json();
-	console.log(data);
-	repeatingLoop(data);
+  let date1 = handleMonths(month);
+  let date2 = handleMonths(month + 1);
+  let month2 = month + 1;
+  console.log(month2);
+  const response = await fetch(
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`
+  );
+  const data = await response.json();
+  console.log(data);
+  repeatingLoop(data);
 }
 
 async function bestOfYear() {
-	let date1 = new Date();
-	let date2 = new Date();
-	date2.setFullYear(date1.getFullYear() + 1);
-	date2.setMonth("00");
-	date2.setDate("01");
-	date2 = date2.toISOString().split('T')[0];
-	date1 = handleMonths('00');
-	console.log(date2)
-	
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
-	const data = await response.json();
-	console.log(data);
-	repeatingLoop(data);
+  let date1 = new Date();
+  let date2 = new Date();
+  date2.setFullYear(date1.getFullYear() + 1);
+  date2.setMonth("00");
+  date2.setDate("01");
+  date2 = date2.toISOString().split("T")[0];
+  date1 = handleMonths("00");
+  console.log(date2);
+
+  const response = await fetch(
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
+  );
+  const data = await response.json();
+  console.log(data);
+  repeatingLoop(data);
 }
 
 async function bestOfLastYear() {
-	let date1 = new Date();
-	let date2 = new Date();
-	date1.setFullYear(date1.getFullYear() - 1);
-	date2.setMonth("00");
-	date2.setDate("01");
-	date1.setMonth("00");
-	date1.setDate("01");
-	date2 = date2.toISOString().split('T')[0];
-	date1 = date1.toISOString().split('T')[0];
-	
-	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`);
-	const data = await response.json();
-	console.log(data);
-	repeatingLoop(data);
+  let date1 = new Date();
+  let date2 = new Date();
+  date1.setFullYear(date1.getFullYear() - 1);
+  date2.setMonth("00");
+  date2.setDate("01");
+  date1.setMonth("00");
+  date1.setDate("01");
+  date2 = date2.toISOString().split("T")[0];
+  date1 = date1.toISOString().split("T")[0];
+
+  const response = await fetch(
+    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-rating,-metacritic`
+  );
+  const data = await response.json();
+  console.log(data);
+  repeatingLoop(data);
 }
 
 async function top250() {
-	const response = await fetch(`${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`);
-	const data = await response.json();
-	console.log(data);
-	repeatingLoop(data);
+  const response = await fetch(
+    `${basicUrl}?key=${key}&page=${page}&pafe_size=50&ordering=-rating,-metacritic`
+  );
+  const data = await response.json();
+  console.log(data);
+  repeatingLoop(data);
 }
 
-
-
 function handleMonths(month) {
-	let s = new Date()
-	s.setMonth(month)
-	s.setDate(1)
-	s = s.toISOString().split('T')[0];
-	console.log(s)
-	return s;
+  let s = new Date();
+  s.setMonth(month);
+  s.setDate(1);
+  s = s.toISOString().split("T")[0];
+  console.log(s);
+  return s;
 }
 
 function repeatingLoop(data) {
-  blocksContainer.innerHTML = "";
+  blocksContainer.innerHTML = `
+  <h2 style="display: inline; position: absolute; top: -50px;">Game Category</h2>
+  `;
   for (let i = 0; i < data.results.length; i++) {
     blocksContainer.innerHTML = blocksContainer.innerHTML + exampleBlock;
   }
@@ -322,6 +334,7 @@ function repeatingLoop(data) {
   }
   let a = document.getElementsByClassName("block");
   console.log(a);
+  console.log(data);
   for (let i = 0; i < a.length; i++) {
     a[i].addEventListener("mouseenter", () => {
       a[i].style.height = "calc(100% + 200px)";
