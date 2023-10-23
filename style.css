@@ -393,6 +393,7 @@ body {
 	.main {
 		margin: 0;
 		bottom: -100px;
+		
 	}
 }
 @media (max-width: 410px) {
