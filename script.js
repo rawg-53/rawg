@@ -271,22 +271,6 @@ async function nextWeek() {
   repeatingLoop(data);
 }
 
-async function monthly(month) {
-  loader[1].style.display = "block";
-  let date1 = handleMonths(month);
-  let date2 = handleMonths(month + 1);
-  let month2 = month + 1;
-  console.log(month2);
-  const response = await fetch(
-    `${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-release`
-  );
-  const data = await response.json();
-  if (data) loader[1].style.display = "none";
-
-  console.log(data);
-  repeatingLoop(data);
-}
-
 async function bestOfYear() {
   let date1 = new Date();
   let date2 = new Date();
@@ -351,6 +335,26 @@ function handleMonths(month) {
   console.log(s);
   return s;
 }
+
+async function monthly(month) {
+	loader[1].style.display = "block";
+	let date1 = handleMonths(month);
+	let date2 = handleMonths(month + 1)
+	console.log(date1)
+	console.log(date2)
+	const response = await fetch(`${basicUrl}?key=${key}&dates=${date1},${date2}&page=${page}&ordering=-release`);
+	const data = await response.json();
+	if (data) loader[1].style.display = "none";
+	console.log(data);
+	repeatingLoop(data);
+}
+
+for(let i = 0; i < 12; i++) {
+	months[i].addEventListener("click", () => {
+		monthly(months[i].value)
+	})
+}
+
 
 function repeatingLoop(data) {
   loader[1].style.display = "none";
