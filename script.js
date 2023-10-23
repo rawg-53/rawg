@@ -88,6 +88,7 @@ top250Element.addEventListener("click", () => {
 
 calendarElement.addEventListener("click", () => {
   monthsElement.style.display = "flex";
+  monthly("00")
 });
 
 input.addEventListener("keyup", (key) => {
@@ -216,6 +217,8 @@ searchIconBlack.addEventListener("click", () => {
 });
 
 async function home() {
+	monthsElement.style.display = "none";
+
   loader[1].style.display = "block";
   let lastYear = days(365, "-");
 
@@ -230,6 +233,8 @@ async function home() {
 }
 
 async function lastMonth() {
+	monthsElement.style.display = "none";
+
   let lastMonth = days(31, "-");
   loader[1].style.display = "block";
 
@@ -245,6 +250,8 @@ async function lastMonth() {
 }
 
 async function lastWeek() {
+	monthsElement.style.display = "none";
+
   let lastWeek = days(7, "-");
 
   const response = await fetch(
@@ -258,9 +265,10 @@ async function lastWeek() {
 }
 
 async function nextWeek() {
+	monthsElement.style.display = "none";
+
   loader[1].style.display = "block";
   let nextWeek = days(7, "+");
-  console.log(`next week:::${nextWeek}`);
 
   const response = await fetch(
     `${basicUrl}?key=${key}&dates=${date},${nextWeek}&fields=announced,unanounced`
@@ -272,6 +280,8 @@ async function nextWeek() {
 }
 
 async function bestOfYear() {
+	monthsElement.style.display = "none";
+
   let date1 = new Date();
   let date2 = new Date();
   loader[1].style.display = "block";
@@ -280,7 +290,6 @@ async function bestOfYear() {
   date2.setDate("01");
   date2 = date2.toISOString().split("T")[0];
   date1 = handleMonths("00");
-  console.log(date2);
 
   const response = await fetch(
     `${basicUrl}?key=${key}&dates=${date1},${date2}&page=1&ordering=-rating,-metacritic`
@@ -293,6 +302,8 @@ async function bestOfYear() {
 }
 
 async function bestOfLastYear() {
+	monthsElement.style.display = "none";
+
   let date1 = new Date();
   let date2 = new Date();
   date1.setFullYear(date1.getFullYear() - 1);
@@ -314,6 +325,8 @@ async function bestOfLastYear() {
 }
 
 async function top250() {
+	monthsElement.style.display = "none";
+
   loader[1].style.display = "block";
 
   const response = await fetch(
